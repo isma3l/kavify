@@ -21,6 +21,7 @@ interface ButtonProps extends PressableProps {
   variant?: ButtonVariant,
   style?: StyleProp<ViewStyle>,
   LeftIcon?: React.ReactNode,
+  RightIcon?: React.ReactNode,
 }
 
 export const Button = ({
@@ -29,6 +30,7 @@ export const Button = ({
     iconStyle,
     disabled,
     LeftIcon,
+    RightIcon,
     style,
     variant = 'primary',
     ...props
@@ -84,6 +86,7 @@ export const Button = ({
         <Text style={[styles.labelText, textColors[variant], textStyle]}> 
             {children}
         </Text>
+        {RightIcon && <View style={styles.rightIcon} >{RightIcon}</View> }
     </Pressable>
   );
 };
@@ -102,6 +105,10 @@ const styles = StyleSheet.create({
     icon: {
         position: 'absolute',
         left: 16,
+    },
+    rightIcon: {
+        position: 'absolute',
+        right: 16
     },
     pressedOpacity: {
         opacity: 0.7,

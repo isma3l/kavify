@@ -9,6 +9,7 @@ interface TripStore {
     setNextStep: (step: Step) => void;
     goBack: () => void;
     selectDestination: () => void;
+    selectVehicle: () => void;
 }
 
 export const useTripStoreBase = create<TripStore>((set, get) => ({
@@ -34,8 +35,8 @@ export const useTripStoreBase = create<TripStore>((set, get) => ({
             }))
         }
     },
-    selectDestination: () => get().setNextStep(Steps.DESTINATION)
-
+    selectDestination: () => get().setNextStep(Steps.DESTINATION),
+    selectVehicle: () => get().setNextStep(Steps.VEHICLE)
 }));
 
 export const useTripStore = createSelectors(useTripStoreBase);

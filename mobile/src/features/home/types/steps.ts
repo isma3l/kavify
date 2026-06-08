@@ -1,6 +1,7 @@
 export const Steps = {
     ORIGIN: 'ORIGIN',
     DESTINATION: 'DESTINATION',
+    VEHICLE: 'VEHICLE',
 } as const;
 
 export type Step = typeof Steps[keyof typeof Steps];

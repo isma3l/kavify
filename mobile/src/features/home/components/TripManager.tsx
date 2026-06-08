@@ -9,6 +9,7 @@ import { BottomSheetHeader } from './BottomSheetHeader';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { View, WINDOW_HEIGHT } from '@/core';
 import { useBackHandler } from '@/core/hooks/useBackHandler';
+import { VehicleSelector } from './steps/VehicleSelector';
 
 const configState: StepsRegistry = {
     [Steps.ORIGIN]: {
@@ -21,6 +22,10 @@ const configState: StepsRegistry = {
         title: "bottom_sheet.destination_selector.title",
         showBackButton: true,
     },
+    [Steps.VEHICLE]: {
+        component: VehicleSelector,
+        maxHeight: false,
+    }
 }
 
 export function TripManager() {

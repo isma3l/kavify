@@ -24,7 +24,7 @@ export function OriginSelector() {
             
             <Button
                 onPress={handleSelectDestination}
-                LeftIcon={<MaterialCommunityIcons name="magnify" size={24} color="gray" />}
+                LeftIcon={<MaterialCommunityIcons name="magnify" size={24} color={colors.inputTextPlaceholder} />}
                 style={[styles.destinationButton, { backgroundColor: colors.inputBackground }]}  
                 textStyle={[styles.labelButton, { color: colors.inputTextPlaceholder }]}
             >

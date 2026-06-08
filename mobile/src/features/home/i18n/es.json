@@ -8,6 +8,9 @@
       "title": "Tu viaje",
       "origin_placeholder": "Introduce el origen",
       "destination_placeholder": "Introduce el destino"
+    },
+    "vehicle_selector": {
+      "button_selector": "Seleccionar"
     }
   }
 }

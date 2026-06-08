@@ -19,6 +19,7 @@ type AppTheme = Theme & {
     inputTextPlaceholder: string,
     success: string,
     onSuccess: string,
+    iconInput: string,
   }
 }
 

@@ -57,7 +57,7 @@ export function GooglePlaceInput({
         <MaterialCommunityIcons 
             name="magnify" 
             size={24} 
-            color={colors.inputTextPlaceholder}
+            color={"#7145D6"}
         />
     );
 
@@ -125,7 +125,7 @@ export function GooglePlaceInput({
                     )}
                 renderRightButton={ () => showClearButton ? (
                     <Pressable style={styles.clearButton} onPress={clearText}>
-                        <MaterialCommunityIcons name="close-circle" size={24} color="black" />
+                        <MaterialCommunityIcons name="close-circle" size={21} color="black" />
                     </Pressable>
                 ) : null }
                 renderRow={(data: any) => (
@@ -142,10 +142,10 @@ export function GooglePlaceInput({
                     },
                     textInput: {
                         borderColor: focused ? colors.primary : 'transparent',
-                        backgroundColor: focused ? 'white' : colors.surfaceVariant,
+                        backgroundColor: focused ? 'white' : colors.inputBackground,
                         paddingHorizontal: 36,
                         borderWidth: 2,
-                        borderRadius: 8
+                        borderRadius: 8,
                     },
                     listView: {
                         display: hasText ? 'flex' : 'none',
@@ -179,6 +179,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         opacity: 0.6,
         right: 16,
-        top: 8,
+        top: 9,
     }
 })

@@ -16,10 +16,11 @@ module.exports = {
     surfaceVariant: '#F2F2F2',
     onSurfaceVariant: '#FFFFFF',
     error: '#FF4D4D',
-    inputBackground: '#F3F3F7',
+    inputBackground: '#F3EFFF',
     inputTextPlaceholder: '#70707B',
     success: '#00C853',
-    onSuccess: '#FFFFFF'
+    onSuccess: '#FFFFFF',
+    iconInput: '#8A8799',
   },
   dark: {
     primary: '#7350FF',
@@ -40,6 +41,7 @@ module.exports = {
     inputBackground: '#1E1E24',
     inputTextPlaceholder: '#9E9EAC',
     success: '#66BB6A',
-    onSuccess: '#003308'
+    onSuccess: '#003308',
+    iconInput: '#8A8799'
   },
 };

@@ -4,16 +4,20 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useAppTheme, View } from "@/core";
 import { GooglePlaceInput } from '../GooglePlaceInput';
 import { useLocationStore } from '../../store/useLocationStore';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { useTripStore } from '../../store/useTripStore';
 
 export function DestinationSelector() {
     const { colors } = useAppTheme();
     const { t } = useTranslation("home");
+    const selectVehicle = useTripStore.use.selectVehicle();
     const currentLocation = useLocationStore.use.currentLocation();
     const setDestination = useLocationStore.use.setDestination();
     const setOrigin = useLocationStore.use.setOrigin();
     const destination = useLocationStore.use.destination();
     const origin = useLocationStore.use.origin();
+    const werePreviouslyReady = useRef(Boolean(origin && destination)); 
+
 console.log({currentLocation});
     console.log({origin});
     console.log({destination})
@@ -28,10 +32,14 @@ console.log({currentLocation});
     }, []);
 
     useEffect(() => {
-        if (origin && destination) {
+        const areNowReady = Boolean(origin && destination);
+
+        if (areNowReady && !werePreviouslyReady.current) {
             console.log("iniciar viaje");
+            selectVehicle()
         }
-    }, [origin, destination]);
+        werePreviouslyReady.current = false;
+    }, [origin, destination, selectVehicle]);
 
     const originAddress = origin?.shortAddress ?? currentLocation?.shortAddress;
     const destinationAddress = destination?.shortAddress;
@@ -40,35 +48,36 @@ console.log({currentLocation});
     // como sabes que vuelves atras?
 
     return (
-        <View style={styles.container}>
-            <GooglePlaceInput 
-                placeholder={t("bottom_sheet.destination_selector.origin_placeholder")}
-                leftIcon={<MaterialCommunityIcons name="human-greeting-variant" size={24} color={colors.inputTextPlaceholder} />}
-                containerStyle={styles.originInput}
-                addressListStyle={styles.originAddressList}
-                initialValue={originAddress}
-                initialFocus={!hasOrigin}
-                setLocation={setOrigin}
-            />
-            <GooglePlaceInput 
-                placeholder={t("bottom_sheet.destination_selector.destination_placeholder")}
-                leftIcon={<MaterialCommunityIcons name="flag" size={24} color={colors.inputTextPlaceholder} />}
-                containerStyle={styles.destinationInput}
-                addressListStyle={styles.destinationAddressList}
-                initialFocus={hasOrigin}
-                initialValue={destinationAddress}
-                setLocation={setDestination}
-            />
-            <View style={{ borderTopWidth: 4, borderColor: colors.surfaceVariant, marginTop: 8 }}/>
+        <View style={styles.container} safe>
+            <View>
+                <GooglePlaceInput 
+                    placeholder={t("bottom_sheet.destination_selector.origin_placeholder")}
+                    leftIcon={<MaterialCommunityIcons name="human-greeting-variant" size={24} color={colors.inputTextPlaceholder} />}
+                    containerStyle={styles.originInput}
+                    addressListStyle={styles.originAddressList}
+                    initialValue={originAddress}
+                    initialFocus={!hasOrigin}
+                    setLocation={setOrigin}
+                />
+                <GooglePlaceInput 
+                    placeholder={t("bottom_sheet.destination_selector.destination_placeholder")}
+                    leftIcon={<MaterialCommunityIcons name="flag" size={24} color={colors.inputTextPlaceholder} />}
+                    containerStyle={styles.destinationInput}
+                    addressListStyle={styles.destinationAddressList}
+                    initialFocus={hasOrigin}
+                    initialValue={destinationAddress}
+                    setLocation={setDestination}
+                />
+            </View>
         </View>
     );
 }
-
+//<View style={{ borderTopWidth: 4, borderColor: colors.surfaceVariant, marginTop: 8 }}/>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-start',
-        paddingTop: 16,
+        justifyContent: 'space-between',
+        paddingTop: 16,        
     },
     originInput: {
         marginBottom: 8,
@@ -82,5 +91,5 @@ const styles = StyleSheet.create({
     },
     destinationAddressList: {
         top: 80,
-    }
+    },
 })

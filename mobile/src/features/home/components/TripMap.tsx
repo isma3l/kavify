@@ -40,7 +40,7 @@ export function TripMap() {
       >
         { currentLocation && (
           <Marker coordinate={currentLocation} anchor={{ x: 0.5, y: 1 }}>
-            <MaterialCommunityIcons name="human-greeting-variant" size={26} color="black" />
+            <MaterialCommunityIcons name="human-greeting-variant" size={26} color={colors.primary} />
           </Marker>          
         )}
         <MapViewDirections

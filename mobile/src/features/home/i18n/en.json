@@ -8,6 +8,9 @@
       "title": "Your trip",
       "origin_placeholder": "Enter pickup",
       "destination_placeholder": "Enter destination"
+    },
+    "vehicle_selector": {
+      "button_selector": "Select"
     }
   }
 }
