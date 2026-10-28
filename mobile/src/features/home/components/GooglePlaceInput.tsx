@@ -128,9 +128,15 @@ export function GooglePlaceInput({
                         <MaterialCommunityIcons name="close-circle" size={21} color="black" />
                     </Pressable>
                 ) : null }
-                renderRow={(data: any) => (
-                    <GooglePlaceRow data={{ ...data, isPredefinedPlace: !!data.isPredefinedPlace }} />
-                )}
+                renderRow={(row) => {
+                    const { structured_formatting: data } = row;
+                    return (
+                        <GooglePlaceRow 
+                            title={data.main_text}
+                            subtitle={data.secondary_text}
+                        />
+                    );
+                }}
                 styles={{
                     container: {
                         flex: 0

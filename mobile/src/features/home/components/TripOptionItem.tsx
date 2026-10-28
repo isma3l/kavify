@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Image, ImageSource } from 'expo-image';
-import { Text, useAppTheme, View } from "@/core";
+import { formatPrice, Text, useAppTheme, View } from "@/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
 type Props = {
@@ -10,9 +10,10 @@ type Props = {
     detail: string;
     image: ImageSource;
     capacity: number;
+    currency: string;
 }
 
-export function TripOptionItem({ id, capacity, name, price, detail, image }: Props) {
+export function TripOptionItem({ id, capacity, name, price, detail, image, currency }: Props) {
     const { colors } = useAppTheme();
     
     return (
@@ -21,7 +22,7 @@ export function TripOptionItem({ id, capacity, name, price, detail, image }: Pro
             <View style={styles.vehicleInfo}>
                 <View style={styles.vehicleTitle}>
                     <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.price}>{price}</Text>
+                    <Text style={styles.price}>{formatPrice(price, currency)}</Text>
                 </View>
                 <View style={styles.vehicleCapacity}>
                     <MaterialCommunityIcons name="account-outline" size={18} color={colors.inputTextPlaceholder} />
@@ -48,7 +49,10 @@ const styles = StyleSheet.create({
     },
     vehicleInfo: {
         flex: 1,
-        gap: 2
+        gap: 2,
+        borderBottomWidth: 1,
+        borderBottomColor: 'lightgray',
+        paddingBottom: 8
     },
     vehicleTitle: {
         flexDirection: 'row',

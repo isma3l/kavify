@@ -11,6 +11,8 @@ export interface StepConfig {
     maxHeight: boolean;
     title?: string;
     showBackButton?: boolean;
+    snapPoints: string[];
+    initialSnap?: number;
 }
 
 export type StepsRegistry = Record<Step, StepConfig>;

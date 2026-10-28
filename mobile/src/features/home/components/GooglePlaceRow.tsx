@@ -1,29 +1,22 @@
-import { GooglePlaceData, Place } from 'react-native-google-places-autocomplete';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Text, View } from "@/core"
 import { StyleSheet } from 'react-native';
 
-type PredefinedPlaceWithFlag = Place & { isPredefinedPlace: true };
-type GooglePlaceWithFlag = GooglePlaceData & { isPredefinedPlace: false };
-
 type Props = {
-    data: (PredefinedPlaceWithFlag | GooglePlaceWithFlag);
+    title: string;
+    subtitle?: string;
 }
 
-export function GooglePlaceRow({ data }: Props) {
-    const { title, subtitle } = data.isPredefinedPlace 
-        ? { title: data.description, subtitle: "" }
-        : { title: data.structured_formatting.main_text, subtitle: data.structured_formatting.secondary_text }
-    
+export function GooglePlaceRow({ title, subtitle = "" }: Props) {
     return (
         <View style={styles.container}>
-            <MaterialCommunityIcons name="map-marker" size={20} color="gray" />
+            <MaterialCommunityIcons name="clock" size={20} color="gray" />
             <View style={styles.addressContainer}>
                 <Text style={styles.addressTitle} numberOfLines={1} ellipsizeMode='tail'>{title}</Text>
                 { subtitle && (
                         <Text style={styles.addressSubtitle}>{subtitle}</Text>
                     )
-                }                    
+                }
             </View>
         </View>
     )

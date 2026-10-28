@@ -4,6 +4,22 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Button, useAppTheme, View, Text } from "@/core";
 import { useTripStore } from '../../store/useTripStore';
 import { useLocationStore } from '../../store/useLocationStore';
+import { GooglePlaceRow } from '../GooglePlaceRow';
+
+const address = [
+    {
+        title: "Aeropuerto Barcelona - El Prat T2",
+        subtitle: "Barcelona"
+    },
+    {
+        title: "Estación de Sants",
+        subtitle: "Plaza de Paisos"
+    },
+    {
+        title: "Aeropuerto Barcelona - El Prat T3",
+        subtitle: "Barcelona"
+    }
+];
 
 export function OriginSelector() {
     const { colors } = useAppTheme();
@@ -30,10 +46,13 @@ export function OriginSelector() {
             >
                 {t("bottom_sheet.origin_selector.select_destination_button")}
             </Button>
+            
             <View style={styles.addressContainer}>
-                {/* <GooglePlaceRow title={'Aeropuerto Barcelona - El Prat T2 y todos se van de viaje a pasear'} subtitle={'Barcelona'} />
-                <GooglePlaceRow title={'Aeropuerto Barcelona - El Prat T1'} subtitle={'Barcelona'} />
-                <GooglePlaceRow title={'Aeropuerto Barcelona - El Prat T3'} subtitle={'Barcelona'} /> */}
+                {
+                    address.map(({ title, subtitle }) => (
+                        <GooglePlaceRow key={title} title={title} subtitle={subtitle} />
+                    ))
+                }
             </View>
         </View>
     );
@@ -62,6 +81,6 @@ const styles = StyleSheet.create({
     addressContainer: {
         flex: 1,
         marginTop: 16,
-        gap: 8,
+        gap: 16,
     }
 })

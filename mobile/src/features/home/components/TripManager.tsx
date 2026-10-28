@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import BottomSheet, { BottomSheetView, useBottomSheetTimingConfigs } from '@gorhom/bottom-sheet';
-import { Easing } from 'react-native-reanimated';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { DestinationSelector, OriginSelector } from '@/features/home/components';
-import { StepsRegistry, Steps } from "../types";
+import { StepsRegistry, Steps, StepConfig } from "../types";
 import { useTripStore } from "../store/useTripStore";
 import { BottomSheetHeader } from './BottomSheetHeader';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,16 +14,19 @@ const configState: StepsRegistry = {
     [Steps.ORIGIN]: {
         component: OriginSelector,
         maxHeight: false,
+        snapPoints: ['50%'],
     },
     [Steps.DESTINATION]: {
         component: DestinationSelector,
         maxHeight: true,
         title: "bottom_sheet.destination_selector.title",
         showBackButton: true,
+        snapPoints: ['100%'],
     },
     [Steps.VEHICLE]: {
         component: VehicleSelector,
         maxHeight: false,
+        snapPoints: ['50%', '100%'],
     }
 }
 
@@ -32,56 +34,62 @@ export function TripManager() {
     const currentStep = useTripStore.use.currentStep();
     const goBack = useTripStore.use.goBack();
     const insets = useSafeAreaInsets();
-    const [shouldBeFull, setShouldBeFull] = useState(false);
     const bottomSheetRef = useRef<BottomSheet>(null);
-    const { component: CurrentStep, maxHeight, title, showBackButton } = configState[currentStep];
+    const [currentConfig, setConfig] = useState<StepConfig>(configState[currentStep]);
+    const firstRender = useRef(true);
+
     useBackHandler(goBack);
 
     useEffect(() => {
-        if (maxHeight) {
-            requestAnimationFrame(() => {
-                setShouldBeFull(true);
-            })
-        } else {
-            setShouldBeFull(false);
+        if (firstRender.current) {
+            firstRender.current = false;
+            return;
         }
-    }, [maxHeight]);
+        bottomSheetRef.current?.close();
+    }, [currentStep]);
+    console.log({currentStep})
 
-    const animationConfigs = useBottomSheetTimingConfigs({
-        duration: 380,
-        easing: Easing.out(Easing.quad)
-    })
+    useEffect(() => {
+        const frame = requestAnimationFrame(() => {
+            bottomSheetRef.current?.snapToIndex(currentConfig.initialSnap ?? 0);
+        });
+        return () => cancelAnimationFrame(frame);
+    }, [currentConfig]);
+
+    const loadNextStep = useCallback(() => {
+        setConfig(configState[currentStep]);
+        }, [currentStep]);
 
     return (
         <BottomSheet
             ref={bottomSheetRef}
             enablePanDownToClose={false}
-            handleIndicatorStyle={ maxHeight ? styles.indicator : undefined}
-            enableDynamicSizing={true}
+            handleIndicatorStyle={ currentConfig.maxHeight ? styles.indicator : undefined}
             backgroundStyle={{
                 backgroundColor: 'white',
                 paddingBottom: WINDOW_HEIGHT
             }}
-            animationConfigs={animationConfigs}
+            snapPoints={currentConfig.snapPoints}
+            onClose={loadNextStep}
         >
             <BottomSheetView 
-                style={[
+                 style={[
                         styles.container, 
                         { 
                             paddingBottom: insets.bottom, 
-                            height: shouldBeFull ? WINDOW_HEIGHT : undefined,
-                            minHeight: shouldBeFull ? WINDOW_HEIGHT : undefined,
+                            height: currentConfig.maxHeight ? WINDOW_HEIGHT : undefined,
+                            minHeight: currentConfig.maxHeight ? WINDOW_HEIGHT : undefined,
                         }
                     ]}
             >
-                <View style={{ display: maxHeight ? 'flex' : 'none'}}>
+                <View style={{ display: currentConfig.maxHeight ? 'flex' : 'none'}}>
                     <BottomSheetHeader 
-                        title={title}
-                        showBackButton={showBackButton}
+                        title={currentConfig.title}
+                        showBackButton={currentConfig.showBackButton}
                         onPressBack={goBack}
                     />
                 </View>                
-                <CurrentStep />
+                <currentConfig.component />
             </BottomSheetView>
         </BottomSheet>
     );
