@@ -43,6 +43,10 @@ clon-cabify/
 
 ### Web (`web/`)
 
+> 🚧 **En fase inicial.** Por ahora solo tiene la pantalla de login.
+
+La idea es que el panel web sea una plataforma de monitoreo en la que se puedan ver en un mapa todos los autos moviéndose en tiempo real.
+
 - **Next.js 16** (App Router) + **React 19**
 - **Tailwind CSS 4**
 - **Firebase Auth** (inicio de sesión con email y contraseña)
@@ -82,7 +86,7 @@ clon-cabify/
 - La ruta que se dibuja en el mapa (`TripMap`) usa coordenadas fijas, no el origen y el destino que elige el usuario.
 - `AuthModule` y `UsersModule` existen pero todavía no están importados en `AppModule`, así que `/auth/register` y `/users/me` aún no están expuestos.
 - Pantalla de verificación por número de teléfono (solo la interfaz).
-- Panel web de administración (solo la pantalla de login).
+- Panel web de administración (solo la pantalla de login). Falta el mapa con todos los autos moviéndose en tiempo real.
 - Solicitud y seguimiento del viaje en tiempo real, app del conductor, pagos.
 
 ## Puesta en marcha
